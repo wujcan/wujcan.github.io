@@ -1,0 +1,25 @@
+name: Update Google Scholar Citations  
+on:  
+  schedule:  
+    - cron: '0 0 * * *'  # 每天运行一次  
+  workflow_dispatch:      # 允许手动触发  
+
+jobs:  
+  update-citations:  
+    runs-on: ubuntu-latest  
+    steps:  
+      - uses: actions/checkout@v2  
+      
+      - name: Google Scholar Citation  
+        uses: liangyongxiang/google-scholar-stats@main  
+        id: scholar-stats  
+        with:  
+          GOOGLE_SCHOLAR_ID: 'z9zW1UgAAAAJ'  # 替换为你的ID  
+          
+      - name: Commit and Push  
+        run: |  
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"  
+          git config --global user.name "github-actions[bot]"  
+          git add .  
+          git commit -m "Update Google Scholar stats" || exit 0  
+          git push
